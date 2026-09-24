@@ -105,10 +105,15 @@ Default phases: `subdomains,http,crawl,nuclei`.
 ## Install
 
 ```bash
-git clone https://github.com/HMJ07/bounty-pilot && cd bounty-pilot
+git clone https://github.com/HMJ07/bounty-pilot
+cd bounty-pilot
 pip install -e .            # Python 3.10+, core deps: PyYAML, rich
 bountypilot doctor          # shows which external tools are installed / missing
 ```
+
+> **Windows:** if `bountypilot` is "not recognized" after installing, pip put the script in a
+> folder that is not on your `PATH`. Use `python -m bounty_pilot doctor` instead (works
+> everywhere), or add the Scripts folder pip printed to your `PATH`.
 
 The external tools are Go programs from ProjectDiscovery (and ffuf). Install Go 1.21+ from
 <https://go.dev/dl/>, then:
@@ -349,7 +354,8 @@ Messages contain **counts only** ("2 new subdomain(s), 1 new finding(s) (1 high)
 
 ```bash
 pip install -e ".[dev]"
-pytest -q && ruff check .
+pytest -q
+ruff check .
 ```
 
 The suite (200+ tests) covers the scope engine (wildcards, CIDR, precedence, parser edge
