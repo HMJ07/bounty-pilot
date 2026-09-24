@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+# local state: never commit scan history, scopes of private programs or credentials
+.bountypilot/
+*.db
+*.log
+config.yaml
+.env

@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bounty-pilot"
+version = "0.1.0"
+description = "Diff-first, scope-first recon orchestrator for authorized bug bounty hunting: history, change triage and report generation on top of subfinder/httpx/katana/nuclei."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Hugo Arribas Munoz" }]
+requires-python = ">=3.10"
+keywords = ["bug-bounty", "recon", "security-tools", "osint", "pentesting", "cli", "python", "nuclei", "subfinder", "attack-surface"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "PyYAML>=6.0",
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+# The LLM and notification integrations use only the standard library (urllib), so these
+# extras add no packages; they exist as stable names for future optional dependencies.
+llm = []
+notify = []
+dev = ["pytest>=7.0", "ruff>=0.4"]
+
+[project.urls]
+Homepage = "https://github.com/HMJ07/bounty-pilot"
+Issues = "https://github.com/HMJ07/bounty-pilot/issues"
+
+[project.scripts]
+bountypilot = "bounty_pilot.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]

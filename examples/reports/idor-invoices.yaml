@@ -1,0 +1,31 @@
+# Example input for: bountypilot report --from examples/reports/idor-invoices.yaml
+# Fictional data (example.com). Shows the quality bar: precise, reproducible, impact-focused.
+title: "IDOR in /api/v2/invoices/{id} exposes other customers' invoices"
+asset: "https://app.example.com/api/v2/invoices/{id}"
+vuln_class: "Insecure Direct Object Reference (CWE-639)"
+program: example-corp
+summary: >-
+  The invoices API authorizes the request only by checking that the caller is logged in, not
+  that the invoice belongs to the caller. Any authenticated user can read any other customer's
+  invoice, including name, billing address and the last four digits of the payment card, by
+  changing the numeric invoice ID.
+steps:
+  - "Create two free accounts: attacker@example.org (account A) and victim@example.org (account B)."
+  - "As account B, create an invoice and note its ID from the URL, e.g. `1043`."
+  - "Log in as account A and copy your session cookie."
+  - "Send `GET /api/v2/invoices/1043` with account A's session cookie."
+  - "Observe `200 OK` with account B's full invoice JSON (name, address, card last4)."
+  - "Repeat with sequential IDs (1040-1045) to confirm the IDs are enumerable."
+impact: >-
+  Any registered user can read the billing details of every customer by enumerating sequential
+  invoice IDs. This exposes personal data (name, address) and partial payment data, with GDPR
+  implications, and requires no special privileges beyond a free account.
+cvss_score: 6.5
+cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+remediation: >-
+  Enforce object-level authorization: verify the invoice's owner matches the authenticated
+  user (or the caller's organization) on every read. Consider non-sequential identifiers as
+  defense in depth.
+references:
+  - "https://cwe.mitre.org/data/definitions/639.html"
+  - "https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/"

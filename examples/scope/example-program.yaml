@@ -1,0 +1,15 @@
+# Scope definition for one bug bounty program. All data below is fictional.
+# Copy the rules from the program's official policy page, VERBATIM where possible.
+program: example-corp          # letters, digits, . _ -  (this is the name you pass to `scan`)
+platform: hackerone            # informational only
+in_scope:
+  - "*.example.com"            # any subdomain at any depth (NOT example.com itself)
+  - "example.com"              # the apex, listed explicitly
+  - "api.example.org"          # one exact host
+  - "203.0.113.0/24"           # a CIDR range (documentation range, fictional)
+out_of_scope:                  # ALWAYS wins over in_scope
+  - "admin.example.com"        # exact host only...
+  - "*.admin.example.com"      # ...so exclude its children explicitly
+  - "*.internal.example.com"
+  - "203.0.113.99"
+notes: "No automated scanning above 10 req/s. No DoS. See policy for details."
